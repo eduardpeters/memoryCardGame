@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -8,7 +9,13 @@
     <script src="memoryGame.js" defer></script>
     <title>Memory Game!</title>
 </head>
+
 <body>
+    <header>
+        <div id="header">
+            <h1>Memory Game!</h1>
+        </div>
+    </header>
     <div id="screen">
         <div id="userForm">
             <form>
@@ -23,41 +30,43 @@
                     </label>
                 </div>
                 <div class="inputDiv">
-                    <label>Choose a level:
+                    <label>Selecciona un nivel:
                         <select id="level">
-                        <option></option>
-                        <option value="12">12 Cards</option>
-                        <option value="24">24 Cards</option>
-                        <option value="48">48 Cards</option>
+                            <option></option>
+                            <option value="12">12 Cards</option>
+                            <option value="24">24 Cards</option>
+                            <option value="48">48 Cards</option>
                         </select>
                     </label>
                 </div>
             </form>
             <div class="inputDiv">
-            <button onclick="initializeGame()">Start Game!</button>
+                <button id="button1" onclick="initializeGame()">Start Game!</button>
             </div>
         </div>
         <div id="gameScreen">
             <div id="board"></div>
             <div id="statusBar">
-                <div class="playerInfo">
+                <div class="playerScore">
                     <p id="playerOneName">Player One Name</p>
                     <p id="playerOneScore">Player One Score</p>
                 </div>
-                <div class="playerInfo">
-                    <p>Current Turn:</p>
-                    <p id="currentTurn">Player One or Two</p>
-                </div>
-                <div class="playerInfo">
+                <div class="playerScore">
                     <p id="playerTwoName">Player Two Name</p>
                     <p id="playerTwoScore">Player Two Score</p>
                 </div>
             </div>
         </div>
         <div id="endScreen">
-            <p>Aqui te muestra el ganador</p>
+            <p id="winner">ganador</p>
             <button onclick="resetGame()">Play Again!</button>
         </div>
     </div>
+    <footer>
+        <div id="footer">
+            <p>Made with ❤️ at The Bridge</p>
+        </div>
+    </footer>
 </body>
+
 </html>
