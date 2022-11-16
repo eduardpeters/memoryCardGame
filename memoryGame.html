@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="memoryGame.css">
-    <script src="memoryGame.js" defer></script>
+    <link rel="stylesheet" href="index.css">
+    <script src="index.js" defer></script>
     <title>Memory Game!</title>
 </head>
 
@@ -17,20 +17,20 @@
         </div>
     </header>
     <div id="screen">
-        <div id="userForm">
+        <div id="userForm" class="userForm">
             <form>
                 <div class="inputDiv">
-                    <label>Player 1 Name:
-                        <input id="playerOneInput" type="text" min="3">
+                    <label class="playerNameLabel">Player 1 Name:
+                        <input id="playerOneInput" type="text" placeholder="At least 3 characters" min="3">
                     </label>
                 </div>
                 <div class="inputDiv">
-                    <label>Player 2 Name:
-                        <input id="playerTwoInput" type="text" min="3">
+                    <label class="playerNameLabel">Player 2 Name:
+                        <input id="playerTwoInput" type="text" placeholder="At least 3 characters" min="3">
                     </label>
                 </div>
                 <div class="inputDiv">
-                    <label>Selecciona un nivel:
+                    <label id="selectLevel">Select a level:
                         <select id="level">
                             <option></option>
                             <option value="12">12 Cards</option>
@@ -41,10 +41,18 @@
                 </div>
             </form>
             <div class="inputDiv">
-                <button id="button1" onclick="initializeGame()">Start Game!</button>
+                <button class="button" onclick="initializeGame()">Start Game!</button>
             </div>
         </div>
-        <div id="gameScreen">
+        <div id="turnSelector" class="not-displayed">
+            <h3>Selecting who will start...</h3>
+            <div id="turnNames" class="turnNames">
+                <p id="playerOneTurn" class="playerTurn">Player 1</p>
+                <p id="playerTwoTurn" class="playerTurn">Player 2</p>
+            </div>
+            <p id="firstMove" class="not-displayed">Player who starts</p>
+        </div>
+        <div id="gameScreen" class="not-displayed">
             <div id="board"></div>
             <div id="statusBar">
                 <div class="playerScore">
@@ -55,16 +63,22 @@
                     <p id="playerTwoName">Player Two Name</p>
                     <p id="playerTwoScore">Player Two Score</p>
                 </div>
+                <div class="playerScore">
+                    <p id="spread">Remaining turns:</p>
+                </div>
             </div>
         </div>
-        <div id="endScreen">
-            <p id="winner">ganador</p>
-            <button onclick="resetGame()">Play Again!</button>
+        <div id="endScreen" class="not-displayed">
+            <div id="textEndScreen">
+                <p id="winner">Winning Player</p>
+                <p id="emoji">Emojis</p>
+            </div>
+            <button class="button" onclick="resetGame()">Play Again!</button>
         </div>
     </div>
     <footer>
         <div id="footer">
-            <p>Made with ❤️ at The Bridge</p>
+            <p>Made with &#10084;&#65039; at The Bridge</p>
         </div>
     </footer>
 </body>

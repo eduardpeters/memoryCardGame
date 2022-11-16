@@ -1,5 +1,3 @@
-console.log("JS Loaded!");
-
 const gameState = {
     playerOneName: "",
     playerTwoName: "",
@@ -16,25 +14,19 @@ function initializeGame() {
     const numberOfCards = parseInt(document.getElementById("level").value);
     if (validateInput(playerOneName, playerTwoName, numberOfCards)) {
         inputUser(playerOneName, playerTwoName);
+        drawFirstMove();
         gameState.maxPoints = numberOfCards / 2;
+        document.getElementById("spread").innerHTML = `Remaining turns: ${gameState.maxPoints - gameState.playerOneScore - gameState.playerTwoScore}`;
         placeBoard(numberOfCards);
-        document.getElementById("userForm").style.display = "none";
-        document.getElementById("gameScreen").style.display = "block";
-
+        document.getElementById("userForm").classList.remove("userForm");
+        document.getElementById("userForm").classList.add("not-displayed");
+        setTimeout(() => {
+            document.getElementById("turnSelector").classList.remove("turnSelector");
+            document.getElementById("turnSelector").classList.add("not-displayed");
+            document.getElementById("gameScreen").classList.remove("not-displayed");
+            document.getElementById("gameScreen").classList.add("gameScreen");
+        }, 3000);
     }
-}
-
-function inputUser(playerOneName, playerTwoName) {
-    document.getElementById("playerOneName").innerHTML = playerOneName;
-    document.getElementById("playerTwoName").innerHTML = playerTwoName;
-    gameState.playerOneName = playerOneName;
-    gameState.playerTwoName = playerTwoName;
-    updateScore();
-}
-
-function updateScore() {
-    document.getElementById("playerOneScore").innerHTML = gameState.playerOneScore;
-    document.getElementById("playerTwoScore").innerHTML = gameState.playerTwoScore;
 }
 
 function validateInput(playerOneName, playerTwoName, numberOfCards) {
@@ -53,10 +45,54 @@ function validateInput(playerOneName, playerTwoName, numberOfCards) {
     return (true);
 }
 
+function inputUser(playerOneName, playerTwoName) {
+    document.getElementById("playerOneName").innerHTML = playerOneName;
+    document.getElementById("playerTwoName").innerHTML = playerTwoName;
+    document.getElementById("playerOneTurn").innerHTML = playerOneName;
+    document.getElementById("playerTwoTurn").innerHTML = playerTwoName;
+    gameState.playerOneName = playerOneName;
+    gameState.playerTwoName = playerTwoName;
+    updateScore();
+}
+
+function updateScore() {
+    document.getElementById("playerOneScore").innerHTML = gameState.playerOneScore;
+    document.getElementById("playerTwoScore").innerHTML = gameState.playerTwoScore;
+    document.getElementById("spread").innerHTML = `Remaining turns: ${gameState.maxPoints - gameState.playerOneScore - gameState.playerTwoScore}`;
+}
+
+function drawFirstMove() {
+    const playerOneTag = document.getElementById("playerOneTurn");
+    const playerTwoTag = document.getElementById("playerTwoTurn");
+    gameState.playerOneTurn = Math.random() < 0.5 ? true : false;
+    gameState.playerOneTurn ? document.getElementById("playerOneName").classList.add("currentTurn") : document.getElementById("playerTwoName").classList.add("currentTurn");
+    document.getElementById("turnSelector").classList.remove("not-displayed");
+    document.getElementById("turnSelector").classList.add("turnSelector");
+    const selectionInterval = setInterval(() => alternateSelected(playerOneTag, playerTwoTag), 250);
+    setTimeout(() => {
+        clearInterval(selectionInterval);
+        document.getElementById("turnNames").classList.remove("turnNames");
+        document.getElementById("turnNames").classList.add("not-displayed");
+        document.getElementById("firstMove").classList.remove("not-displayed");
+        document.getElementById("firstMove").classList.add("firstMove");
+        document.getElementById("firstMove").innerHTML = `${gameState.playerOneTurn ? gameState.playerOneName : gameState.playerTwoName} has the first move!`;
+    }, 2000);
+}
+
+function alternateSelected(playerOneTag, playerTwoTag) {
+    playerOneTag.classList.add("playerSelected");
+    setTimeout(() => {
+        playerOneTag.classList.remove("playerSelected");
+        playerTwoTag.classList.add("playerSelected");
+    }, 125);
+    setTimeout(() => {
+        playerTwoTag.classList.remove("playerSelected");
+    }, 250);
+}
+
 function placeBoard(numberOfCards) {
     const boardOrder = randomOrderArray(numberOfCards);
     const parent = document.getElementById("board");
-    console.log(boardOrder);
     boardOrder.forEach(pairValue => {
         const newDiv = document.createElement("div");
         const newP = document.createElement("p");
@@ -81,6 +117,8 @@ function randomOrderArray(numberOfCards) {
 
 function handleCardClick(event) {
     const currentCard = event.target;
+    if (currentCard.tagName === "P")
+        return;
     if (gameState.currentCards.indexOf(currentCard) === -1 && gameState.currentCards.length < 2) {
         gameState.currentCards.push(currentCard);
         currentCard.classList.add("cardFlipping");
@@ -101,23 +139,20 @@ function checkOutcome() {
     }
     else {
         gameState.playerOneTurn = !gameState.playerOneTurn;
+        if (gameState.playerOneTurn) {
+            document.getElementById("playerOneName").classList.add("currentTurn");
+            document.getElementById("playerTwoName").classList.remove("currentTurn");
+        }
+        else {
+            document.getElementById("playerTwoName").classList.add("currentTurn");
+            document.getElementById("playerOneName").classList.remove("currentTurn");
+        }
+
         revertCardFaces();
     }
     gameState.currentCards = [];
     if (gameState.playerOneScore + gameState.playerTwoScore === gameState.maxPoints)
         endGame();
-}
-
-function endGame() {
-    if (gameState.playerOneScore === gameState.playerTwoScore) {
-        document.getElementById("winner").innerHTML = "Empate";
-    }
-    else {
-        const finalResult = gameState.playerOneScore > gameState.playerTwoScore ? gameState.playerOneName : gameState.playerTwoName;
-        document.getElementById("winner").innerHTML = `${finalResult} ha ganado la partida`;
-    }
-    document.getElementById("gameScreen").style.display = "none";
-    document.getElementById("endScreen").style.display = "block";
 }
 
 function removeCardVisibility() {
@@ -142,7 +177,22 @@ function revertCardFaces() {
     });
 }
 
+function endGame() {
+    if (gameState.playerOneScore === gameState.playerTwoScore) {
+        document.getElementById("winner").innerHTML = "The game ends in a tie!";
+        document.getElementById("emoji").innerHTML = "&#129309";
+    }
+    else {
+        const finalResult = gameState.playerOneScore > gameState.playerTwoScore ? gameState.playerOneName : gameState.playerTwoName;
+        document.getElementById("winner").innerHTML = `${finalResult} has won this match!`;
+        document.getElementById("emoji").innerHTML = "&#127881;";
+    }
+    document.getElementById("gameScreen").classList.remove("gameScreen");
+    document.getElementById("gameScreen").classList.add("not-displayed");
+    document.getElementById("endScreen").classList.remove("not-displayed");
+    document.getElementById("endScreen").classList.add("endScreen");
+}
+
 function resetGame() {
-    console.log("Should be reset");
     window.location.reload();
 }

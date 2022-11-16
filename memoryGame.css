@@ -1,13 +1,9 @@
 body {
-    width: 100%;
-    background: rgb(44,199,217);
-    background: linear-gradient(90deg, rgba(44,199,217,0.8) 28%, rgba(32,28,30,1) 100%);
+    background: linear-gradient(90deg, rgba(44, 199, 217, 0.8) 28%, rgba(32, 28, 30, 1) 100%);
 }
 
 #header {
     width: 100%;
-    position: fixed;
-    top: 0;
     text-align: center;
     font-family: sans-serif;
 }
@@ -21,7 +17,6 @@ body {
 
 #screen {
     width: 100%;
-    margin-top: 100px;
     display: flex;
     flex-flow: column nowrap;
     justify-content: center;
@@ -29,11 +24,10 @@ body {
     font-family: sans-serif;
 }
 
-#userForm {
+.userForm {
     display: flex;
     flex-flow: column nowrap;
     width: 35%;
-    border: 1px solid black;
 }
 
 .inputDiv {
@@ -51,40 +45,108 @@ button:hover {
     opacity: 0.9;
 }
 
-#gameScreen {
+#playerOneInput,
+#playerTwoInput {
+    border-radius: 2em;
+    border: 2px solid #84170a;
+    margin-left: 4px;
+    padding: 8px;
+}
+
+#level {
+    border-radius: 2em;
+    border: 2px solid #0f0e0e;
+    margin-left: 4px;
+    padding: 8px
+}
+
+.playerNameLabel {
+    font-family: sans-serif;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+#selectLevel {
+    font-family: sans-serif;
+    font-size: 18px;
+    font-weight: bold;
+    color: #84170a;
+}
+
+.button {
+    font-family: sans-serif;
+    font-size: 18px;
+    font-weight: bold;
+    margin: 30px;
+    background-color: #000000;
+    color: #ffffff
+}
+
+.turnSelector {
+    width: 50%;
+    display: flex;
     flex-flow: column nowrap;
-    width: 40%;
     justify-content: center;
     align-items: center;
+}
+
+.turnNames {
+    width: 100%;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+}
+
+.playerTurn {
+    border: 2px solid transparent;
+    padding: 5px;
+    font-size: 50px;
+}
+
+.playerSelected {
+    border-color: #ce756b;
+}
+
+.firstMove {
+    text-align: center;
+    font-size: 50px;
+}
+
+.not-displayed {
     display: none;
 }
 
-#board {
-    color: red;
-    width: 100%;
-    border: 1px solid red;
-    display: flex;
-    flex-flow: row wrap;
-    justify-content: center;
-}
-
-#statusBar {
-    border: 1px solid yellow;
+.gameScreen {
     display: flex;
     flex-flow: row nowrap;
+    width: 90%;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#board {
+    width: 80%;
+    border: 2px solid #ffffff;
+    border-radius: 2em;
+    display: flex;
+    flex-flow: row wrap;
     justify-content: space-evenly;
 }
 
 .card {
-    height: 150px;
-    width: 75px;
+    box-sizing: border-box;
+    width: 15%;
     margin: 5px;
+    aspect-ratio: 1 / 1.25;
     border: 2px solid black;
-    border-radius: 10px;
-    text-align: center;
+    border-radius: 0.5em;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-around;
+    align-items: center;
     font-family: "Brush Script MT", cursive;
-    font-size: 50px;
-    color: yellow;
+    font-size: 3.75vw;
+    color: #ffff00;
 }
 
 .cardFlipping {
@@ -97,8 +159,77 @@ button:hover {
     transition: opacity 0.5s linear;
 }
 
-#endScreen {
-    border: 1px solid red;
-    color: red;
-    display: none;
+#statusBar {
+    border: 3px solid #e1887e;
+    border-radius: 2em;
+    width: 20%;
+    margin: 10px;
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.playerScore {
+    font-family: sans-serif;
+    font-size: 25px;
+    font-weight: bold;
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: space-evenly;
+    align-items: center;
+    color: #ffffff;
+}
+
+#playerOneName,
+#playerTwoName {
+    font-family: sans-serif;
+    font-size: 25px;
+    font-weight: bold;
+    margin: 4px;
+    padding: 4px;
+    border-radius: 2em;
+}
+
+#spread {
+    font-family: sans-serif;
+    font-size: 25px;
+    font-weight: bold;
+    text-align: center;
+    color: #ce756b;
+}
+
+.currentTurn {
+    background-color: #ce756b;
+}
+
+.endScreen {
+    width: 80%;
+    display: flex;
+    justify-content: space-around;
+    flex-flow: column;
+    align-items: center;
+}
+
+#textEndScreen {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-around;
+}
+
+#winner {
+    color: #000000;
+    font-weight: bold;
+    font-size: 23px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#emoji {
+    font-size: 5vw;
+}
+
+#textEndScreen > p {
+    margin: 5px;
 }
